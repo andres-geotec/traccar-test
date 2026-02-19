@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: traccar
       TIMESCALEDB_TELEMETRY: "off"
     volumes:
-      - /opt/traccar/data:/var/lib/postgresql/data
+      - traccar_data:/var/lib/postgresql/data
 
   traccar:
     image: traccar/traccar:latest
@@ -30,9 +30,9 @@ services:
       retries: 3
     ports:
       - "8082:8082"
-      - "5000-5500:5000-5500"
+      - "6000-6500:5000-5500"
     volumes:
-      - /opt/traccar/logs:/opt/traccar/logs
+      - traccar_logs:/opt/traccar/logs
 
   autoheal:
     image: willfarrell/autoheal:latest
@@ -43,3 +43,7 @@ services:
       AUTOHEAL_START_PERIOD: 3600
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  traccar_data:
+  traccar_logs:
